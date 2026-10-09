@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Little Surprise ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --gold:#e5bf8c;
+  --cream:#f4e3cc;
+  --dark:#100e0d;
+}
+
+body{
+  margin:0;
+  background:var(--dark);
+  color:var(--cream);
+  font-family:'Patrick Hand',cursive;
+  overflow-x:hidden;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.15;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+}
+
+canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:4;
+}
+
+.screen{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px 20px;
+  position:relative;
+}
+
+#intro{
+  background:radial-gradient(ellipse at 50% 35%,
+    #493329 0%,#211914 43%,#100e0d 78%);
+  z-index:2;
+}
+
+.eyebrow{
+  color:var(--gold);
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font:10px Arial,sans-serif;
+  margin-bottom:24px;
+}
+
+.intro-title{
+  font:clamp(38px,9vw,62px)/1.08 'Caveat',cursive;
+  margin:0;
+  font-weight:400;
+}
+
+.intro-title span{color:var(--gold)}
+
+.intro-sub{
+  font-size:18px;
+  color:#c6ab91;
+  margin-top:22px;
+}
+
+button{
+  border:1px solid #d8b58a;
+  background:#d8b58a;
+  color:#251912;
+  padding:13px 27px;
+  border-radius:2px;
+  font:19px 'Patrick Hand',cursive;
+  cursor:pointer;
+  margin-top:30px;
+  transition:.25s;
+}
+
+button:hover{
+  background:#f2ddbf;
+  transform:translateY(-2px);
+}
+
+#sound{
+  position:fixed;
+  z-index:10;
+  right:12px;
+  top:12px;
+  margin:0;
+  padding:8px 13px;
+  font-size:14px;
+  display:none;
+}
+
+#celebration{
+  display:none;
+  background:linear-gradient(#17110f,#241913,#100e0d);
+}
+
+#celebration h2{
+  font:clamp(35px,8vw,54px) 'Caveat',cursive;
+  font-weight:400;
+  margin:0;
+  text-shadow:0 0 25px #e4b87b55;
+}
+
+#celebration p{
+  color:#d9b998;
+  font-size:19px;
+}
+
+.scroll-hint{
+  color:#d5b38e;
+  font-size:15px;
+  letter-spacing:2px;
+  margin-top:25px;
+}
+
+#letterPage{
+  display:none;
+  padding:50px 16px 70px;
+  min-height:100svh;
+  perspective:1200px;
+  background:radial-gradient(ellipse at top,#30231b,#100e0d 70%);
+}
+
+.letter-title{
+  font:clamp(32px,7vw,46px) 'Caveat',cursive;
+  color:var(--cream);
+  margin:0 0 10px;
+}
+
+.letter-sub{
+  color:#c5a17e;
+  margin-bottom:35px;
+}
+
+.scroll-wrap{
+  width:min(100%,520px);
+  margin:auto;
+  perspective:1400px;
+}
+
+.roller{
+  height:18px;
+  position:relative;
+  z-index:2;
+  border-radius:50%;
+  background:linear-gradient(
+    #f5dfbd,#c7a27a,#f1d5ac,#9f7957
+  );
+  box-shadow:0 4px 10px #0008;
+}
+
+.paper{
+  background:
+    linear-gradient(115deg,#e8d2b4,#d2b493 48%,#e8d0ae);
+  color:#3b2920;
+  padding:34px 25px 40px;
+  text-align:center;
+  transform:rotateX(-90deg);
+  transform-origin:top;
+  clip-path:polygon(1% 0,99% 0,100% 98%,97% 100%,3% 99%,0 97%);
+  opacity:.1;
+  transition:transform 2s cubic-bezier(.2,.7,.15,1),
+             opacity 1.2s ease;
+  box-shadow:0 25px 50px #0008;
+  position:relative;
+}
+
+.paper.open{
+  transform:rotateX(0);
+  opacity:1;
+}
+
+.paper:before,.paper:after{
+  content:"✦   ♡   ✦";
+  display:block;
+  color:#997552;
+  letter-spacing:8px;
+  font-size:15px;
+  margin-bottom:20px;
+}
+
+.paper:after{
+  margin:25px 0 0;
+}
+
+.bouquet{
+  font-size:clamp(65px,19vw,105px);
+  line-height:1.3;
+  filter:drop-shadow(0 8px 10px #6c4b3430);
+  margin-bottom:8px;
+}
+
+.paper h2{
+  font:clamp(34px,8vw,46px) 'Caveat',cursive;
+  font-weight:500;
+  margin:10px 0 20px;
+}
+
+.message{
+  font-size:20px;
+  line-height:1.7;
+  white-space:pre-line;
+}
+
+.signature{
+  font:28px 'Caveat',cursive;
+  text-align:right;
+  margin-top:25px;
+}
+
+.final{
+  font:24px 'Caveat',cursive;
+  color:#d8b58b;
+  margin-top:30px;
+}
+
+.float{
+  position:absolute;
+  color:#dcb98d;
+  font-size:27px;
+  animation:float 5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.f1{left:7%;top:17%}
+.f2{right:8%;top:30%;animation-delay:1s}
+.f3{left:10%;bottom:15%;animation-delay:2s}
+.f4{right:7%;bottom:20%;animation-delay:.7s}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(-8deg)}
+  50%{transform:translateY(-17px) rotate(8deg)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+<canvas id="sky"></canvas>
+
+<button id="sound" onclick="toggleSound()">♫ Sound OFF</button>
+
+<section class="screen" id="intro">
+  <div class="eyebrow">A LITTLE SOMETHING · JUST FOR YOU</div>
+  <h1 class="intro-title">
+    hi, i made this little<br>
+    <span>something for you ♡</span>
+  </h1>
+  <div class="intro-sub">some wishes deserve a little magic ✨</div>
+  <button onclick="begin()">open your surprise ♡</button>
+</section>
+
+<section class="screen" id="celebration">
+  <span class="float f1">✧</span>
+  <span class="float f2">♡</span>
+  <span class="float f3">✦</span>
+  <span class="float f4">♡</span>
+  <div class="eyebrow">TONIGHT, THE SKY IS YOURS</div>
+  <h2>Make a little wish ✨</h2>
+  <p>A tiny celebration, made just for you.</p>
+  <div class="scroll-hint">YOUR LETTER IS WAITING BELOW ↓</div>
+  <button onclick="openLetter()">open your letter ♡</button>
+</section>
+
+<section id="letterPage">
+  <h1 class="letter-title">a little letter for you ♡</h1>
+  <div class="letter-sub">written with love, wrapped in wishes</div>
+
+  <div class="scroll-wrap">
+    <div class="roller"></div>
+    <article class="paper" id="paper">
+      <div class="bouquet">💐</div>
+
+      <h2>Happy Birthdayyy!</h2>
+
+      <div class="message"><b>Elon Bhardwaj urf tyohaar ke paryawaachi 😭😂❤️</b>
+
+Bhagwaan kare tu humesha khush rahe aur tujhe woh saari cheezein mile jo tu deserve karta hai. ❤️
+
+Hope tera aaj ka din bahut achha jaaye aur aane wala saal bhi tere liye best rahe. Tujhe tera dream college mile aur tu life mein bahut kuch accha kare aur humesha tension-free rahe 💗
+
+Baaki mere charno mein tera pranaam toh hai hi, toh mera aashirwaad humesha tere saath rahega 😌😂🙏🏻
+
+Sada sada sukhi rho 🙌
+
+Once again, happy birthday mere pyaare se bhaiii 🫂❤️✨</div>
+
+      <div class="signature">— with lots of love ♡</div>
+    </article>
+    <div class="roller"></div>
+  </div>
+
+  <div class="final">may life always be kind to you ✧</div>
+  <button onclick="replay()">one more round of fireworks? 🎆</button>
+</section>
+
+<script>
+const canvas=document.getElementById("sky");
+const ctx=canvas.getContext("2d");
+
+let W,H,rockets=[],particles=[];
+let audio=null,sound=false,busy=false;
+
+function resize(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  W=innerWidth; H=innerHeight;
+  canvas.width=W*dpr;
+  canvas.height=H*dpr;
+  canvas.style.width=W+"px";
+  canvas.style.height=H+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resize();
+addEventListener("resize",resize);
+
+const colors=["#ffe7b6","#e8b77c","#fff2d5",
+              "#ffb5a9","#f5d4e4","#fff9e8"];
+
+function toggleSound(){
+  sound=!sound;
+  document.getElementById("sound").textContent=
+    "♫ Sound "+(sound?"ON":"OFF");
+  if(sound){
+    if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();
+    audio.resume();
+  }
+}
+
+function boom(){
+  if(!sound||!audio)return;
+  const duration=.45;
+  const n=Math.floor(audio.sampleRate*duration);
+  const buffer=audio.createBuffer(1,n,audio.sampleRate);
+  const data=buffer.getChannelData(0);
+
+  for(let i=0;i<n;i++)
+    data[i]=(Math.random()*2-1)*(1-i/n);
+
+  const src=audio.createBufferSource();
+  const filter=audio.createBiquadFilter();
+  const gain=audio.createGain();
+
+  src.buffer=buffer;
+  filter.type="lowpass";
+  filter.frequency.value=240;
+  gain.gain.setValueAtTime(.0001,audio.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.45,audio.currentTime+.02);
+  gain.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);
+
+  src.connect(filter);
+  filter.connect(gain);
+  gain.connect(audio.destination);
+  src.start();
+}
+
+function burst(x,y,color,power=1){
+  const count=Math.floor(100*power);
+
+  for(let i=0;i<count;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=(Math.random()*4+1)*power;
+
+    particles.push({
+      x,y,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+      life:65+Math.random()*40,
+      max:105,
+      color,
+      size:Math.random()*2+1,
+      gravity:.035
+    });
+  }
+  boom();
+}
+
+function launch(x,y,power=1){
+  const px=x??W*(.08+Math.random()*.84);
+  const py=H+8;
+  const ty=y??H*(.12+Math.random()*.40);
+
+  rockets.push({
+    x:px,y:py,target:ty,
+    speed:6+Math.random()*3,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    power
+  });
+}
+
+function showSky(){
+  // Bright opening bursts, then fireworks across the sky.
+  burst(W*.5,H*.28,"#ffe7b6",2.2);
+  burst(W*.22,H*.4,"#e8b77c",1.6);
+  burst(W*.78,H*.32,"#fff2d5",1.7);
+
+  for(let i=0;i<22;i++){
+    setTimeout(()=>{
+      launch(undefined,undefined,1+Math.random()*.65);
+    },250+i*160);
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+
+  for(let i=rockets.length-1;i>=0;i--){
+    const r=rockets[i];
+    r.y-=r.speed;
+
+    ctx.beginPath();
+    ctx.arc(r.x,r.y,2.2,0,Math.PI*2);
+    ctx.fillStyle=r.color;
+    ctx.shadowBlur=12;
+    ctx.shadowColor=r.color;
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    if(r.y<=r.target){
+      burst(r.x,r.y,r.color,r.power);
+      rockets.splice(i,1);
+    }
+  }
+
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.x+=p.vx;
+    p.y+=p.vy;
+    p.vy+=p.gravity;
+    p.vx*=.986;
+    p.vy*=.986;
+    p.life--;
+
+    ctx.globalAlpha=Math.max(0,p.life/p.max);
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle=p.color;
+    ctx.shadowBlur=8;
+    ctx.shadowColor=p.color;
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    if(p.life<=0)particles.splice(i,1);
+  }
+
+  ctx.globalAlpha=1;
+  requestAnimationFrame(animate);
+}
+animate();
+
+function begin(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("celebration").style.display="flex";
+  document.getElementById("sound").style.display="block";
+
+  showSky();
+
+  // Fireworks continue in the background.
+  if(!busy){
+    busy=true;
+    setInterval(()=>{
+      if(document.visibilityState==="visible")
+        launch(undefined,undefined,.8+Math.random()*.5);
+    },850);
+  }
+}
+
+function openLetter(){
+  document.getElementById("letterPage").style.display="block";
+
+  setTimeout(()=>{
+    document.getElementById("paper").classList.add("open");
+  },150);
+
+  setTimeout(()=>{
+    document.getElementById("letterPage").scrollIntoView({
+      behavior:"smooth",block:"start"
+    });
+  },100);
+}
+
+function replay(){
+  showSky();
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Little Surprise ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --gold:#e5bf8c;
+  --cream:#f4e3cc;
+  --dark:#100e0d;
+}
+
+body{
+  margin:0;
+  background:var(--dark);
+  color:var(--cream);
+  font-family:'Patrick Hand',cursive;
+  overflow-x:hidden;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.15;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+}
+
+canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:4;
+}
+
+.screen{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px 20px;
+  position:relative;
+}
+
+#intro{
+  background:radial-gradient(ellipse at 50% 35%,
+    #493329 0%,#211914 43%,#100e0d 78%);
+  z-index:2;
+}
+
+.eyebrow{
+  color:var(--gold);
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font:10px Arial,sans-serif;
+  margin-bottom:24px;
+}
+
+.intro-title{
+  font:clamp(38px,9vw,62px)/1.08 'Caveat',cursive;
+  margin:0;
+  font-weight:400;
+}
+
+.intro-title span{color:var(--gold)}
+
+.intro-sub{
+  font-size:18px;
+  color:#c6ab91;
+  margin-top:22px;
+}
+
+button{
+  border:1px solid #d8b58a;
+  background:#d8b58a;
+  color:#251912;
+  padding:13px 27px;
+  border-radius:2px;
+  font:19px 'Patrick Hand',cursive;
+  cursor:pointer;
+  margin-top:30px;
+  transition:.25s;
+}
+
+button:hover{
+  background:#f2ddbf;
+  transform:translateY(-2px);
+}
+
+#sound{
+  position:fixed;
+  z-index:10;
+  right:12px;
+  top:12px;
+  margin:0;
+  padding:8px 13px;
+  font-size:14px;
+  display:none;
+}
+
+#celebration{
+  display:none;
+  background:linear-gradient(#17110f,#241913,#100e0d);
+}
+
+#celebration h2{
+  font:clamp(35px,8vw,54px) 'Caveat',cursive;
+  font-weight:400;
+  margin:0;
+  text-shadow:0 0 25px #e4b87b55;
+}
+
+#celebration p{
+  color:#d9b998;
+  font-size:19px;
+}
+
+.scroll-hint{
+  color:#d5b38e;
+  font-size:15px;
+  letter-spacing:2px;
+  margin-top:25px;
+}
+
+#letterPage{
+  display:none;
+  padding:50px 16px 70px;
+  min-height:100svh;
+  perspective:1200px;
+  background:radial-gradient(ellipse at top,#30231b,#100e0d 70%);
+}
+
+.letter-title{
+  font:clamp(32px,7vw,46px) 'Caveat',cursive;
+  color:var(--cream);
+  margin:0 0 10px;
+}
+
+.letter-sub{
+  color:#c5a17e;
+  margin-bottom:35px;
+}
+
+.scroll-wrap{
+  width:min(100%,520px);
+  margin:auto;
+  perspective:1400px;
+}
+
+.roller{
+  height:18px;
+  position:relative;
+  z-index:2;
+  border-radius:50%;
+  background:linear-gradient(
+    #f5dfbd,#c7a27a,#f1d5ac,#9f7957
+  );
+  box-shadow:0 4px 10px #0008;
+}
+
+.paper{
+  background:
+    linear-gradient(115deg,#e8d2b4,#d2b493 48%,#e8d0ae);
+  color:#3b2920;
+  padding:34px 25px 40px;
+  text-align:center;
+  transform:rotateX(-90deg);
+  transform-origin:top;
+  clip-path:polygon(1% 0,99% 0,100% 98%,97% 100%,3% 99%,0 97%);
+  opacity:.1;
+  transition:transform 2s cubic-bezier(.2,.7,.15,1),
+             opacity 1.2s ease;
+  box-shadow:0 25px 50px #0008;
+  position:relative;
+}
+
+.paper.open{
+  transform:rotateX(0);
+  opacity:1;
+}
+
+.paper:before,.paper:after{
+  content:"✦   ♡   ✦";
+  display:block;
+  color:#997552;
+  letter-spacing:8px;
+  font-size:15px;
+  margin-bottom:20px;
+}
+
+.paper:after{
+  margin:25px 0 0;
+}
+
+.bouquet{
+  font-size:clamp(65px,19vw,105px);
+  line-height:1.3;
+  filter:drop-shadow(0 8px 10px #6c4b3430);
+  margin-bottom:8px;
+}
+
+.paper h2{
+  font:clamp(34px,8vw,46px) 'Caveat',cursive;
+  font-weight:500;
+  margin:10px 0 20px;
+}
+
+.message{
+  font-size:20px;
+  line-height:1.7;
+  white-space:pre-line;
+}
+
+.signature{
+  font:28px 'Caveat',cursive;
+  text-align:right;
+  margin-top:25px;
+}
+
+.final{
+  font:24px 'Caveat',cursive;
+  color:#d8b58b;
+  margin-top:30px;
+}
+
+.float{
+  position:absolute;
+  color:#dcb98d;
+  font-size:27px;
+  animation:float 5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.f1{left:7%;top:17%}
+.f2{right:8%;top:30%;animation-delay:1s}
+.f3{left:10%;bottom:15%;animation-delay:2s}
+.f4{right:7%;bottom:20%;animation-delay:.7s}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(-8deg)}
+  50%{transform:translateY(-17px) rotate(8deg)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+<canvas id="sky"></canvas>
+
+<button id="sound" onclick="toggleSound()">♫ Sound OFF</button>
+
+<section class="screen" id="intro">
+  <div class="eyebrow">A LITTLE SOMETHING · JUST FOR YOU</div>
+  <h1 class="intro-title">
+    hi, i made this little<br>
+    <span>something for you ♡</span>
+  </h1>
+  <div class="intro-sub">some wishes deserve a little magic ✨</div>
+  <button onclick="begin()">open your surprise ♡</button>
+</section>
+
+<section class="screen" id="celebration">
+  <span class="float f1">✧</span>
+  <span class="float f2">♡</span>
+  <span class="float f3">✦</span>
+  <span class="float f4">♡</span>
+  <div class="eyebrow">TONIGHT, THE SKY IS YOURS</div>
+  <h2>Make a little wish ✨</h2>
+  <p>A tiny celebration, made just for you.</p>
+  <div class="scroll-hint">YOUR LETTER IS WAITING BELOW ↓</div>
+  <button onclick="openLetter()">open your letter ♡</button>
+</section>
+
+<section id="letterPage">
+  <h1 class="letter-title">a little letter for you ♡</h1>
+  <div class="letter-sub">written with love, wrapped in wishes</div>
+
+  <div class="scroll-wrap">
+    <div class="roller"></div>
+    <article class="paper" id="paper">
+      <div class="bouquet">💐</div>
+
+      <h2>Happy Birthdayyy!</h2>
+
+      <div class="message"><b>Elon Bhardwaj urf tyohaar ke paryawaachi 😭😂❤️</b>
+
+Bhagwaan kare tu humesha khush rahe aur tujhe woh saari cheezein mile jo tu deserve karta hai. ❤️
+
+Hope tera aaj ka din bahut achha jaaye aur aane wala saal bhi tere liye best rahe. Tujhe tera dream college mile aur tu life mein bahut kuch accha kare aur humesha tension-free rahe 💗
+
+Baaki mere charno mein tera pranaam toh hai hi, toh mera aashirwaad humesha tere saath rahega 😌😂🙏🏻
+
+Sada sada sukhi rho 🙌
+
+Once again, happy birthday mere pyaare se bhaiii 🫂❤️✨</div>
+
+      <div class="signature">— with lots of love ♡</div>
+    </article>
+    <div class="roller"></div>
+  </div>
+
+  <div class="final">may life always be kind to you ✧</div>
+  <button onclick="replay()">one more round of fireworks? 🎆</button>
+</section>
+
+<script>
+const canvas=document.getElementById("sky");
+const ctx=canvas.getContext("2d");
+
+let W,H,rockets=[],particles=[];
+let audio=null,sound=false,busy=false;
+
+function resize(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  W=innerWidth; H=innerHeight;
+  canvas.width=W*dpr;
+  canvas.height=H*dpr;
+  canvas.style.width=W+"px";
+  canvas.style.height=H+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resize();
+addEventListener("resize",resize);
+
+const colors=["#ffe7b6","#e8b77c","#fff2d5",
+              "#ffb5a9","#f5d4e4","#fff9e8"];
+
+function toggleSound(){
+  sound=!sound;
+  document.getElementById("sound").textContent=
+    "♫ Sound "+(sound?"ON":"OFF");
+  if(sound){
+    if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();
+    audio.resume();
+  }
+}
+
+function boom(){
+  if(!sound||!audio)return;
+  const duration=.45;
+  const n=Math.floor(audio.sampleRate*duration);
+  const buffer=audio.createBuffer(1,n,audio.sampleRate);
+  const data=buffer.getChannelData(0);
+
+  for(let i=0;i<n;i++)
+    data[i]=(Math.random()*2-1)*(1-i/n);
+
+  const src=audio.createBufferSource();
+  const filter=audio.createBiquadFilter();
+  const gain=audio.createGain();
+
+  src.buffer=buffer;
+  filter.type="lowpass";
+  filter.frequency.value=240;
+  gain.gain.setValueAtTime(.0001,audio.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.45,audio.currentTime+.02);
+  gain.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);
+
+  src.connect(filter);
+  filter.connect(gain);
+  gain.connect(audio.destination);
+  src.start();
+}
+
+function burst(x,y,color,power=1){
+  const count=Math.floor(100*power);
+
+  for(let i=0;i<count;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=(Math.random()*4+1)*power;
+
+    particles.push({
+      x,y,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+      life:65+Math.random()*40,
+      max:105,
+      color,
+      size:Math.random()*2+1,
+      gravity:.035
+    });
+  }
+  boom();
+}
+
+function launch(x,y,power=1){
+  const px=x??W*(.08+Math.random()*.84);
+  const py=H+8;
+  const ty=y??H*(.12+Math.random()*.40);
+
+  rockets.push({
+    x:px,y:py,target:ty,
+    speed:6+Math.random()*3,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    power
+  });
+}
+
+function showSky(){
+  // Bright opening bursts, then fireworks across the sky.
+  burst(W*.5,H*.28,"#ffe7b6",2.2);
+  burst(W*.22,H*.4,"#e8b77c",1.6);
+  burst(W*.78,H*.32,"#fff2d5",1.7);
+
+  for(let i=0;i<22;i++){
+    setTimeout(()=>{
+      launch(undefined,undefined,1+Math.random()*.65);
+    },250+i*160);
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+
+  for(let i=rockets.length-1;i>=0;i--){
+    const r=rockets[i];
+    r.y-=r.speed;
+
+    ctx.beginPath();
+    ctx.arc(r.x,r.y,2.2,0,Math.PI*2);
+    ctx.fillStyle=r.color;
+    ctx.shadowBlur=12;
+    ctx.shadowColor=r.color;
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    if(r.y<=r.target){
+      burst(r.x,r.y,r.color,r.power);
+      rockets.splice(i,1);
+    }
+  }
+
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.x+=p.vx;
+    p.y+=p.vy;
+    p.vy+=p.gravity;
+    p.vx*=.986;
+    p.vy*=.986;
+    p.life--;
+
+    ctx.globalAlpha=Math.max(0,p.life/p.max);
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle=p.color;
+    ctx.shadowBlur=8;
+    ctx.shadowColor=p.color;
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    if(p.life<=0)particles.splice(i,1);
+  }
+
+  ctx.globalAlpha=1;
+  requestAnimationFrame(animate);
+}
+animate();
+
+function begin(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("celebration").style.display="flex";
+  document.getElementById("sound").style.display="block";
+
+  showSky();
+
+  // Fireworks continue in the background.
+  if(!busy){
+    busy=true;
+    setInterval(()=>{
+      if(document.visibilityState==="visible")
+        launch(undefined,undefined,.8+Math.random()*.5);
+    },850);
+  }
+}
+
+function openLetter(){
+  document.getElementById("letterPage").style.display="block";
+
+  setTimeout(()=>{
+    document.getElementById("paper").classList.add("open");
+  },150);
+
+  setTimeout(()=>{
+    document.getElementById("letterPage").scrollIntoView({
+      behavior:"smooth",block:"start"
+    });
+  },100);
+}
+
+function replay(){
+  showSky();
+}
+</script>
+</body>
+</html>
